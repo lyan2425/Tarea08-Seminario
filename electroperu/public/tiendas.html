@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiendas</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    
+    <main class="container mt-2">
+      <h3>Tiendas</h3>
+
+      <form action="" id="formulario-tiendas" autocomplete="off">
+        <div class="card">
+          <div class="card-header">
+            Complete los datos por favor
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="tienda" autofocus required>
+                  <label for="tienda">Nombre de tienda</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="reset" class="btn btn-outline-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="table-responsive mt-2">
+        <table class="table table-bordered" id="tabla-tiendas">
+          <colgroup>
+            <col style="width: 10%;">
+            <col style="width: 60%;">
+            <col style="width: 30%;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tienda</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Asíncrono -->
+          </tbody>
+        </table>
+      </div>
+
+
+    </main>
+
+    <script>
+
+      const URL_API = 'http://localhost:3000/api/tiendas'
+
+      const tabla = document.querySelector("#tabla-tiendas tbody")
+      const formulario = document.querySelector("#formulario-tiendas")
+      const tienda = document.getElementById('tienda')
+
+      async function obtenerTiendas(){
+        const response = await fetch(URL_API, { method: 'get' })
+        const tiendas = await response.json()
+        //console.log(tiendas)
+
+        tabla.innerHTML = ''
+
+        tiendas.forEach(item => {
+          const row = tabla.insertRow() //<tr></tr>
+          row.insertCell().textContent = item.id //<td></td>
+          row.insertCell().textContent = item.tienda //<td></td>
+
+          const actionCell = row.insertCell() 
+
+          const editButton = document.createElement("button")
+          editButton.textContent = 'Editar'
+          editButton.classList.add('btn', 'btn-sm', 'btn-info')
+          editButton.onclick = () => cargarParaEdicion(item)
+          
+          const deleteButton = document.createElement("button")
+          deleteButton.textContent = 'Eliminar'
+          deleteButton.classList.add('btn', 'btn-sm', 'btn-danger')
+          deleteButton.onclick = () => eliminarTienda(item.id, item.tienda)
+
+          actionCell.appendChild(editButton)
+          actionCell.appendChild(deleteButton)
+        });
+      }
+
+      formulario.addEventListener("submit", async(event) => {
+        event.preventDefault()
+
+        const data = { tienda: tienda.value }
+
+        try{
+          const response = await fetch(URL_API, {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          })
+          const result = await response.json()
+          formulario.reset()
+          obtenerTiendas()
+          console.log(result)
+        }catch(e){
+          console.error(e)
+        }
+      })
+
+      document.addEventListener('DOMContentLoaded', obtenerTiendas)
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Lista de clientes</h1>
+
+  <form action="" id="formulario-clientes">
+    <select name="lista-tiendas" id="lista-tiendas">
+      <option value="">Seleccione</option>
+    </select>
+    <button type="submit">Evaluar</button>
+  </form>
+
+  <script>
+    const URL_API_TIENDAS = 'http://localhost:3000/api/tiendas'
+    const listaTiendas = document.getElementById('lista-tiendas') //<select>
+    const formulario = document.getElementById('formulario-clientes') //<form>
+
+    async function obtenerTiendas(){
+      const response = await fetch(URL_API_TIENDAS, { method: 'get' })
+      const tiendas = await response.json()
+      //console.log(tiendas)
+      
+      tiendas.forEach(item => {
+        const tagOption = document.createElement("option") //<option></option>
+        tagOption.innerHTML = item.tienda
+        tagOption.value = item.id
+        listaTiendas.appendChild(tagOption)
+      });
+
+    }
+
+    formulario.addEventListener("submit", async(event) => {
+      event.preventDefault()
+
+      alert(listaTiendas.value)
+    })
+
+    document.addEventListener("DOMContentLoaded", obtenerTiendas)
+  </script>
+
+</body>
+</html>
