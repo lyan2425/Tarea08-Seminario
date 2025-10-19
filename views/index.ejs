@@ -1,0 +1,25 @@
+<% include layout %>
+<div class="mb-3">
+  <a href="/nueva" class="btn btn-primary">Nueva mascota</a>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Nombre</th><th>Edad</th><th>Acciones</th></tr></thead>
+  <tbody>
+    <% if (mascotas.length === 0) { %>
+      <tr><td colspan="4">No hay mascotas</td></tr>
+    <% } %>
+    <% mascotas.forEach(m => { %>
+      <tr>
+        <td><%= m.id %></td>
+        <td><%= m.nombre %></td>
+        <td><%= m.edad %></td>
+        <td>
+          <a href="/editar/<%= m.id %>" class="btn btn-sm btn-warning">Editar</a>
+          <form action="/<%= m.id %>?_method=DELETE" method="post" style="display:inline">
+            <button class="btn btn-sm btn-danger">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
