@@ -31,3 +31,5 @@ Proyecto de ejemplo con:
 ## Notas
 - Use Postman para probar las rutas API.
 - Este proyecto es una plantilla; para producción agregue validación, autenticación y manejo de errores más robusto.
+- link de mi imforme explicativo
+- https://drive.google.com/drive/folders/1GB2oueQcTZTTTyS1Mpu6KMyRDvycrYwF?usp=sharing
