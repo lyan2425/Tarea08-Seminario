@@ -19,7 +19,7 @@ Proyecto de ejemplo con:
    ```
 3. Instalar dependencias: `npm install`
 4. Iniciar servidor: `npm run dev` (recomendado) o `npm start`
-5. Abrir `http://localhost:3000`
+5. Abrir `http://localhost:3000/mascotas`
 
 ## Endpoints principales (API JSON)
 - `GET /api/mascotas` — listar todas
